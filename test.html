@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequential focus navigation start point</title>
+  <style>
+    body { font-family: menlo, 'Courier New', Courier, monospace }
+    h2 { display: inline; }
+    pre {
+      padding: 0 1em;
+      background: #eee;
+      flex: 1 1 auto;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sequential focus navigation start point</h1>
+  <p>SFNSP is currently set on all browser engines in the following 4 cases:</p>
+  <ol>
+    <li>(VO supports) On page load</li>
+    <li>(VO supports) On fragment navigation</li>
+    <li>On click anywhere on the page (focusable/non-focusable alike)</li>
+    <li>On DOM removal (if SFNSP was inside the DOM)</li>
+  </ol>
+
+  <h2>Expectation comparison</h2>
+  <div style="display: flex; gap: 1em;">
+    <div style="display: flex; align-items: stretch; flex-direction: column; width: 50%">
+      <h3>Expectation</h3>
+      <pre id="expectation" aria-label="expectation" role="group">
+      </pre>
+    </div>
+    <div style="display: flex; align-items: stretch; flex-direction: column; width: 50%">
+      <h3>Result</h3>
+      <pre id="result" aria-label="result" role="group">
+      </pre>
+    </div>
+  </div>
+  
+  <details data-case-demo="load" open>
+    <summary><h2>On page load</h2></summary>
+    <div data-expectation hidden>
+activeElmenet: BODY
+selection: no selection
+forward tab (focus): summary h2 'on page load'
+VO behavior forward navigation: SFNSP is currently set on all browser engines in the following 4 cases:
+VO behavior: reads 'Sequential focus navigation start point, web content'
+    </div>
+    <h3>Steps</h3>
+    <ol>
+      <li>Refresh</li>
+    </ol>
+  </details>
+
+  <details data-case-demo="fragment">
+    <summary><h2>On fragment navigation</h2></summary>
+    <div data-expectation hidden>
+activeElement: A ('fragment' link)
+selection: no selection
+forward tab (focus): button 'c'
+VO behavior: reads 'Here'
+VO behavior forward action: reads 'c, button'
+    </div>
+    <h3>Steps</h3>
+    <ol>
+      <li>Activate 'fragment'</li>
+    </ol>
+    <a href="#fragment" data-generate>fragment</a>
+    <button>ignore me</button>
+    <div id="fragment">
+      Here
+      <button>c</button>
+    </div>
+  </details>
+
+  <details data-case-demo="click">
+    <summary><h2>On click anywhere on the page (focusable/non-focusable alike)</h2></summary>
+    <div data-expectation hidden>
+activeElmenet: BODY
+selection: #text, b, Caret
+forward tab (focus): button 'a'
+VO behavior forward action: button 'a'
+VO behavior: reads 'nothing'
+    </div>
+    <h3>Steps</h3>
+    <ol>
+      <li>Activate the blank/yellow space AFTER button 'b'</li>
+      <li>Tab</li>
+    </ol>
+    <div style="background: yellow" data-generate>
+      <button>a</button><div style="display: inline-block;width: 20px"></div><button>b</button>
+    </div>
+  </details>
+
+
+  <details data-case-demo="removal">
+    <summary><h2>On DOM removal (if SFNSP was inside the DOM)</h2></summary>
+    <div data-expectation hidden>
+activeElement: BODY
+selection: #text, On DOM removal (if SFNSP was inside the DOM), Caret
+forward tab (focus): button 'e'
+VO behavior forward action: button 'e'
+VO behavior: reads nothing
+    </div>
+    <h3>Steps</h3>
+    <ol>
+      <li>Activate button 'd'.</li>
+    </ol>
+    <div>
+      Text
+      <button onclick="this.remove()" data-generate>d</button>
+      <button>e</button>
+    </div>
+  </details>
+
+  <script defer>
+    const result = document.querySelector('#result')
+    const expectation = document.querySelector('#expectation')
+    for (const demo of document.querySelectorAll('[data-case-demo]')) { 
+      demo.addEventListener('toggle', e => {
+        if (!demo.open) return
+        location.hash = ''
+        result.textContent = `\nfollow steps to get result`
+        expectation.textContent = demo.querySelector('[data-expectation]').textContent
+        for (const opened of document.querySelectorAll('[data-case-demo]')) {
+          if (opened !== demo) opened.open = false
+        }
+      })
+    }
+
+    for (const el of document.querySelectorAll('[data-generate]')) { 
+      el.addEventListener('click', generateResult)
+    }
+
+    async function generateResult(e) {
+      await new Promise(resolve => setTimeout(resolve, 0))
+      const el = document.activeElement
+      const sel = window.getSelection()
+      const hasSelection = Boolean(sel?.baseNode)
+      const activeElementText = document.activeElement ? document.activeElement.nodeName : 'null'
+      const selectionText = hasSelection ? `${sel.baseNode.nodeName}, ${sel.baseNode.textContent}, ${sel.type}` : 'no selection'
+      result.textContent = `
+activeElement: ${activeElementText}
+selection: ${selectionText}
+forward tab (focus): (manual check)
+VO behavior: (manual check)
+VO behavior forward navigation: (manual check)
+      `
+    }
+
+    setTimeout(generateResult, 0)
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequential focus navigation start point</title>
+</head>
+<body>
+  <h1>Sequential focus navigation start point</h1>
+
+  <h2>On fragment navigation</h2>
+  <p>Expectation: on activate "Jump", cursor should jump to "To here", and then on virtual cursor navigation, cursor should move to "tab stop 2", on tab, focus should move to "tab stop 2".</p>
+  <a href="#jump">Jump</a><button>tab stop 1</button>
+  <div id="jump">To here <button>tab stop 2</button></div>
+  <h2>on click </h2>
+  <p>Expectation: on click "paragraph 1", cursor should jump to "paragraph 1", and then on virtual cursor navigation, cursor should move to "tab stop 2", on tab, focus should move to "tab stop 2".</p>
+  <button>tab stop 1</button>
+  <p>paragraph 1</p>
+  <button>tab stop 2</button>
+  <p>paragraph 2</p>
+  <h2>On DOM removal (if SFNSP was inside the DOM)</h2>
+  <p>Expectation: on activate "remove", cursor should jump to end of "how", and then on virtual cursor navigation, cursor should move to "you", on tab, focus should move to "tab stop 2".</p>
+  
+  <p>
+    hello
+    <button>tab stop 1</button>
+  </p>
+  <p>
+    how
+    <button onclick="this.remove()">remove</button>
+    are
+    <button>tab stop 2</button>
+    you
+  </p>
+
+  <h2>New: <code>document.setSequentialFocusStartingPoint(element)</code></h2>
+
+  <p>Expectation: on activate "setSequentialFocusStartingPoint", cursor should jump to "Demo", and then on virtual cursor navigation, cursor should move to "text", on tab, focus should move to "tab stop 2".</p>
+  <button>tab stop 0</button>
+  <button id="set">setSequentialFocusStartingPoint</button>
+  <button>tab stop 1</button>
+  <div id="demo">Demo</div>
+  text
+  <button>tab stop 2</button></div>
+  <button>tab stop 3</button>
+  <script>
+    set.addEventListener('click', () => {
+      document.setSequentialFocusStartingPoint(demo)
+    })
+  </script>
+</body>
+</html>
