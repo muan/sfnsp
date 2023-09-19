@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequential focus navigation start point</title>
+</head>
+<body>
+  <h1>Sequential focus navigation start point</h1>
+  <button id="setselection">set selection</button>
+  <p>stuff <button>stuff</button></p>
+  <div>
+    text
+    <button>tab stop 1</button>
+    <button>tab stop 2</button>
+    <button>tab stop 3</button>
+  </div>
+  <script>
+    setselection.addEventListener('click', e => {
+      const range = new Range()
+      const node = document.querySelector('div')
+      console.log(node)
+      range.setStart(node, 0)
+      range.setEnd(node, 1)
+      window.getSelection().removeAllRanges()
+      window.getSelection().addRange(range)
+    })
+  </script>
+</body>
+</html>
