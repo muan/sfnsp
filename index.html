@@ -4,22 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sequential focus navigation start point</title>
+  <style>
+    body {
+      padding: 2em;
+      margin: 0;
+      line-height: 1.6;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    h1 { margin-top: 0; }
+  </style>
 </head>
 <body>
   <h1>Sequential focus navigation start point</h1>
 
   <h2>On fragment navigation</h2>
-  <p>Expectation: on activate "Jump", cursor should jump to "To here", and then on virtual cursor navigation, cursor should move to "tab stop 2", on tab, focus should move to "tab stop 2".</p>
-  <a href="#jump">Jump</a><button>tab stop 1</button>
+  <p>Expectation: on activate "Jump"</p>
+    <ul>
+    <li>AT: cursor should jump to "To here", and then on virtual cursor navigation, cursor should move to "tab stop 2"</li>
+    <li>Keyboard: on tab, focus should move to "tab stop 2".</li>
+  </ul>
+  <a href="#jump">Jump</a><br><button>tab stop 1</button>
   <div id="jump">To here <button>tab stop 2</button></div>
-  <h2>on click </h2>
-  <p>Expectation: on click "paragraph 1", cursor should jump to "paragraph 1", and then on virtual cursor navigation, cursor should move to "tab stop 2", on tab, focus should move to "tab stop 2".</p>
+  <h2>On click </h2>
+  <p>Expectation: on click "paragraph 1"</p>
+  <ul>
+    <li>AT: cursor should jump to "paragraph 1", and then on virtual cursor navigation, cursor should move to "tab stop 2"</li>
+    <li>Keyboard: on tab, focus should move to "tab stop 2".</li>
+  </ul>
   <button>tab stop 1</button>
   <p>paragraph 1</p>
   <button>tab stop 2</button>
   <p>paragraph 2</p>
   <h2>On DOM removal (if SFNSP was inside the DOM)</h2>
-  <p>Expectation: on activate "remove", cursor should jump to end of "how", and then on virtual cursor navigation, cursor should move to "you", on tab, focus should move to "tab stop 2".</p>
+  <p>Expectation: on activate "remove"</p>
+    <ul>
+    <li>AT: cursor should jump to end of "how", and then on virtual cursor navigation, cursor should move to "you" (unspec, to be clarified)</li>
+    <li>Keyboard: on tab, focus should move to "tab stop 2".</li>
+  </ul>
   
   <p>
     hello
@@ -35,7 +57,11 @@
 
   <h2>New: <code>document.setSequentialFocusStartingPoint(element)</code></h2>
 
-  <p>Expectation: on activate "setSequentialFocusStartingPoint", cursor should jump to "Demo", and then on virtual cursor navigation, cursor should move to "text", on tab, focus should move to "tab stop 2".</p>
+  <p>Expectation: on activate "setSequentialFocusStartingPoint"</p>
+  <ul>
+    <li>AT: cursor should jump to "Demo", and then on virtual cursor navigation, cursor should move to "text"</li>
+    <li>Keyboard: on tab, focus should move to "tab stop 2".</li>
+  </ul>
   <button>tab stop 0</button>
   <button id="set">setSequentialFocusStartingPoint</button>
   <button>tab stop 1</button>

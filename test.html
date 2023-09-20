@@ -5,7 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sequential focus navigation start point</title>
   <style>
-    body { font-family: menlo, 'Courier New', Courier, monospace }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      padding: 2em;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    h1 { margin-top: 0; }
     h2 { display: inline; }
     pre {
       padding: 0 1em;
@@ -20,9 +27,9 @@
   <h1>Sequential focus navigation start point</h1>
   <p>SFNSP is currently set on all browser engines in the following 4 cases:</p>
   <ol>
-    <li>(VO supports) On page load</li>
-    <li>(VO supports) On fragment navigation</li>
-    <li>On click anywhere on the page (focusable/non-focusable alike)</li>
+    <li>On page load</li>
+    <li>On fragment navigation</li>
+    <li>On click anywhere on the page</li>
     <li>On DOM removal (if SFNSP was inside the DOM)</li>
   </ol>
 
@@ -77,7 +84,7 @@ VO behavior forward action: reads 'c, button'
   </details>
 
   <details data-case-demo="click">
-    <summary><h2>On click anywhere on the page (focusable/non-focusable alike)</h2></summary>
+    <summary><h2>On click anywhere on the page</h2></summary>
     <div data-expectation hidden>
 activeElmenet: BODY
 selection: #text, b, Caret
