@@ -29,11 +29,7 @@
     setselection.addEventListener('click', e => {
       const range = new Range()
       const node = document.querySelector('div')
-      console.log(node)
-      range.setStart(node, 0)
-      range.setEnd(node, 1)
-      window.getSelection().removeAllRanges()
-      window.getSelection().addRange(range)
+      window.getSelection().collapse(node, 0)
     })
   </script>
 </body>
